@@ -13,6 +13,9 @@
 
 ActiveRecord::Schema.define(version: 20151011095613) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "activities", force: true do |t|
     t.integer  "user_id"
     t.string   "action",     limit: 50
@@ -21,8 +24,8 @@ ActiveRecord::Schema.define(version: 20151011095613) do
     t.datetime "created_at"
   end
 
-  add_index "activities", ["created_at"], name: "index_activities_on_created_at"
-  add_index "activities", ["user_id"], name: "index_activities_on_user_id"
+  add_index "activities", ["created_at"], name: "index_activities_on_created_at", using: :btree
+  add_index "activities", ["user_id"], name: "index_activities_on_user_id", using: :btree
 
   create_table "ads", force: true do |t|
     t.string   "name"
@@ -84,7 +87,7 @@ ActiveRecord::Schema.define(version: 20151011095613) do
     t.string "slug"
   end
 
-  add_index "categories", ["slug"], name: "index_categories_on_slug", unique: true
+  add_index "categories", ["slug"], name: "index_categories_on_slug", unique: true, using: :btree
 
   create_table "choices", force: true do |t|
     t.integer "poll_id"
@@ -102,7 +105,7 @@ ActiveRecord::Schema.define(version: 20151011095613) do
     t.integer  "favorited_count", default: 0
   end
 
-  add_index "clippings", ["created_at"], name: "index_clippings_on_created_at"
+  add_index "clippings", ["created_at"], name: "index_clippings_on_created_at", using: :btree
 
   create_table "comments", force: true do |t|
     t.integer  "commentable_id"
@@ -121,11 +124,11 @@ ActiveRecord::Schema.define(version: 20151011095613) do
     t.string   "role",                        default: "comments"
   end
 
-  add_index "comments", ["commentable_id"], name: "index_comments_on_commentable_id"
-  add_index "comments", ["commentable_type"], name: "index_comments_on_commentable_type"
-  add_index "comments", ["created_at"], name: "index_comments_on_created_at"
-  add_index "comments", ["recipient_id"], name: "index_comments_on_recipient_id"
-  add_index "comments", ["user_id"], name: "fk_comments_user"
+  add_index "comments", ["commentable_id"], name: "index_comments_on_commentable_id", using: :btree
+  add_index "comments", ["commentable_type"], name: "index_comments_on_commentable_type", using: :btree
+  add_index "comments", ["created_at"], name: "index_comments_on_created_at", using: :btree
+  add_index "comments", ["recipient_id"], name: "index_comments_on_recipient_id", using: :btree
+  add_index "comments", ["user_id"], name: "fk_comments_user", using: :btree
 
   create_table "countries", force: true do |t|
     t.string "name"
@@ -153,7 +156,7 @@ ActiveRecord::Schema.define(version: 20151011095613) do
     t.string   "ip_address",       default: ""
   end
 
-  add_index "favorites", ["user_id"], name: "fk_favorites_user"
+  add_index "favorites", ["user_id"], name: "fk_favorites_user", using: :btree
 
   create_table "forums", force: true do |t|
     t.string  "name"
@@ -178,8 +181,8 @@ ActiveRecord::Schema.define(version: 20151011095613) do
     t.integer  "friendship_status_id"
   end
 
-  add_index "friendships", ["friendship_status_id"], name: "index_friendships_on_friendship_status_id"
-  add_index "friendships", ["user_id"], name: "index_friendships_on_user_id"
+  add_index "friendships", ["friendship_status_id"], name: "index_friendships_on_friendship_status_id", using: :btree
+  add_index "friendships", ["user_id"], name: "index_friendships_on_user_id", using: :btree
 
   create_table "homepage_features", force: true do |t|
     t.datetime "created_at"
@@ -238,7 +241,7 @@ ActiveRecord::Schema.define(version: 20151011095613) do
     t.integer "user_id"
   end
 
-  add_index "moderatorships", ["forum_id"], name: "index_moderatorships_on_forum_id"
+  add_index "moderatorships", ["forum_id"], name: "index_moderatorships_on_forum_id", using: :btree
 
   create_table "monitorships", force: true do |t|
     t.integer "topic_id"
@@ -273,8 +276,8 @@ ActiveRecord::Schema.define(version: 20151011095613) do
     t.datetime "photo_updated_at"
   end
 
-  add_index "photos", ["created_at"], name: "index_photos_on_created_at"
-  add_index "photos", ["parent_id"], name: "index_photos_on_parent_id"
+  add_index "photos", ["created_at"], name: "index_photos_on_created_at", using: :btree
+  add_index "photos", ["parent_id"], name: "index_photos_on_parent_id", using: :btree
 
   create_table "polls", force: true do |t|
     t.string   "question"
@@ -284,8 +287,8 @@ ActiveRecord::Schema.define(version: 20151011095613) do
     t.integer  "votes_count", default: 0
   end
 
-  add_index "polls", ["created_at"], name: "index_polls_on_created_at"
-  add_index "polls", ["post_id"], name: "index_polls_on_post_id"
+  add_index "polls", ["created_at"], name: "index_polls_on_created_at", using: :btree
+  add_index "polls", ["post_id"], name: "index_polls_on_post_id", using: :btree
 
   create_table "posts", force: true do |t|
     t.datetime "created_at"
@@ -303,10 +306,10 @@ ActiveRecord::Schema.define(version: 20151011095613) do
     t.boolean  "send_comment_notifications",            default: true
   end
 
-  add_index "posts", ["category_id"], name: "index_posts_on_category_id"
-  add_index "posts", ["published_as"], name: "index_posts_on_published_as"
-  add_index "posts", ["published_at"], name: "index_posts_on_published_at"
-  add_index "posts", ["user_id"], name: "index_posts_on_user_id"
+  add_index "posts", ["category_id"], name: "index_posts_on_category_id", using: :btree
+  add_index "posts", ["published_as"], name: "index_posts_on_published_as", using: :btree
+  add_index "posts", ["published_at"], name: "index_posts_on_published_at", using: :btree
+  add_index "posts", ["user_id"], name: "index_posts_on_user_id", using: :btree
 
   create_table "roles", force: true do |t|
     t.string "name"
@@ -334,8 +337,8 @@ ActiveRecord::Schema.define(version: 20151011095613) do
     t.string   "author_ip"
   end
 
-  add_index "sb_posts", ["forum_id", "created_at"], name: "index_sb_posts_on_forum_id"
-  add_index "sb_posts", ["user_id", "created_at"], name: "index_sb_posts_on_user_id"
+  add_index "sb_posts", ["forum_id", "created_at"], name: "index_sb_posts_on_forum_id", using: :btree
+  add_index "sb_posts", ["user_id", "created_at"], name: "index_sb_posts_on_user_id", using: :btree
 
   create_table "sessions", force: true do |t|
     t.string   "sessid"
@@ -344,7 +347,7 @@ ActiveRecord::Schema.define(version: 20151011095613) do
     t.datetime "created_at"
   end
 
-  add_index "sessions", ["sessid"], name: "index_sessions_on_sessid"
+  add_index "sessions", ["sessid"], name: "index_sessions_on_sessid", using: :btree
 
   create_table "states", force: true do |t|
     t.string "name"
@@ -360,18 +363,18 @@ ActiveRecord::Schema.define(version: 20151011095613) do
     t.datetime "created_at"
   end
 
-  add_index "taggings", ["tag_id"], name: "index_taggings_on_tag_id"
-  add_index "taggings", ["taggable_id", "taggable_type", "context"], name: "index_taggings_on_taggable_id_and_taggable_type_and_context"
-  add_index "taggings", ["taggable_id", "taggable_type"], name: "index_taggings_on_taggable_id_and_taggable_type"
-  add_index "taggings", ["taggable_id"], name: "index_taggings_on_taggable_id"
-  add_index "taggings", ["taggable_type"], name: "index_taggings_on_taggable_type"
+  add_index "taggings", ["tag_id"], name: "index_taggings_on_tag_id", using: :btree
+  add_index "taggings", ["taggable_id", "taggable_type", "context"], name: "index_taggings_on_taggable_id_and_taggable_type_and_context", using: :btree
+  add_index "taggings", ["taggable_id", "taggable_type"], name: "index_taggings_on_taggable_id_and_taggable_type", using: :btree
+  add_index "taggings", ["taggable_id"], name: "index_taggings_on_taggable_id", using: :btree
+  add_index "taggings", ["taggable_type"], name: "index_taggings_on_taggable_type", using: :btree
 
   create_table "tags", force: true do |t|
     t.string  "name"
     t.integer "taggings_count", default: 0
   end
 
-  add_index "tags", ["name"], name: "index_tags_on_name"
+  add_index "tags", ["name"], name: "index_tags_on_name", using: :btree
 
   create_table "topics", force: true do |t|
     t.integer  "forum_id"
@@ -388,9 +391,9 @@ ActiveRecord::Schema.define(version: 20151011095613) do
     t.integer  "last_post_id"
   end
 
-  add_index "topics", ["forum_id", "replied_at"], name: "index_topics_on_forum_id_and_replied_at"
-  add_index "topics", ["forum_id", "sticky", "replied_at"], name: "index_topics_on_sticky_and_replied_at"
-  add_index "topics", ["forum_id"], name: "index_topics_on_forum_id"
+  add_index "topics", ["forum_id", "replied_at"], name: "index_topics_on_forum_id_and_replied_at", using: :btree
+  add_index "topics", ["forum_id", "sticky", "replied_at"], name: "index_topics_on_sticky_and_replied_at", using: :btree
+  add_index "topics", ["forum_id"], name: "index_topics_on_forum_id", using: :btree
 
   create_table "users", force: true do |t|
     t.string   "login"
@@ -434,15 +437,15 @@ ActiveRecord::Schema.define(version: 20151011095613) do
     t.string   "last_login_ip"
   end
 
-  add_index "users", ["activated_at"], name: "index_users_on_activated_at"
-  add_index "users", ["avatar_id"], name: "index_users_on_avatar_id"
-  add_index "users", ["created_at"], name: "index_users_on_created_at"
-  add_index "users", ["featured_writer"], name: "index_users_on_featured_writer"
-  add_index "users", ["last_request_at"], name: "index_users_on_last_request_at"
-  add_index "users", ["login"], name: "index_users_on_login"
-  add_index "users", ["login_slug"], name: "index_users_on_login_slug"
-  add_index "users", ["persistence_token"], name: "index_users_on_persistence_token"
-  add_index "users", ["vendor"], name: "index_users_on_vendor"
+  add_index "users", ["activated_at"], name: "index_users_on_activated_at", using: :btree
+  add_index "users", ["avatar_id"], name: "index_users_on_avatar_id", using: :btree
+  add_index "users", ["created_at"], name: "index_users_on_created_at", using: :btree
+  add_index "users", ["featured_writer"], name: "index_users_on_featured_writer", using: :btree
+  add_index "users", ["last_request_at"], name: "index_users_on_last_request_at", using: :btree
+  add_index "users", ["login"], name: "index_users_on_login", using: :btree
+  add_index "users", ["login_slug"], name: "index_users_on_login_slug", using: :btree
+  add_index "users", ["persistence_token"], name: "index_users_on_persistence_token", using: :btree
+  add_index "users", ["vendor"], name: "index_users_on_vendor", using: :btree
 
   create_table "votes", force: true do |t|
     t.integer  "user_id"
