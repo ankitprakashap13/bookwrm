@@ -4,7 +4,7 @@ source 'https://rubygems.org'
 gem 'rails', '4.0.13'
 
 # Use sqlite3 as the database for Active Record
-gem 'sqlite3'
+# gem 'sqlite3'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.2'
@@ -48,7 +48,4 @@ gem 'community_engine', '~> 3.0.0'
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 
-group :production do
-	gem 'pg'
-	gem 'rails_12factor'
-end
+gem 'pg'
