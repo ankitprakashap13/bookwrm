@@ -49,3 +49,6 @@ gem 'community_engine', '~> 3.0.0'
 # gem 'debugger', group: [:development, :test]
 
 gem 'pg'
+
+gem 'omniauth-facebook'
+gem 'omniauth-twitter'
